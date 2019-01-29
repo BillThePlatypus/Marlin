@@ -23,6 +23,8 @@
 # NEVER put it in the repository
 _Version.h
 
+buildroot/*
+
 #
 # OS
 #
