@@ -350,7 +350,7 @@
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
 // You should use MINTEMP for thermistor short/failure protection.
-#define HEATER_0_MAXTEMP 295
+#define HEATER_0_MAXTEMP 245
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -380,9 +380,9 @@
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
   // Ultimaker
-  #define DEFAULT_Kp 22.9
-  #define DEFAULT_Ki 1.68
-  #define DEFAULT_Kd 77.87
+  #define DEFAULT_Kp 32.49
+  #define DEFAULT_Ki 2.87
+  #define DEFAULT_Kd 91.84
 
   // MakerGear
   //#define DEFAULT_Kp 7.0
