@@ -255,6 +255,7 @@
   #endif
 #endif
 
+/*
 #ifndef FAN_PIN
   #if ENABLED(IS_RAMPS_EFB) || ENABLED(IS_RAMPS_EFF)  // Hotend, Fan, Bed or Hotend, Fan, Fan
     #define FAN_PIN        RAMPS_D9_PIN
@@ -266,6 +267,9 @@
     #define FAN_PIN        RAMPS_D9_PIN
   #endif
 #endif
+*/
+#define FAN_PIN SERVO2_PIN
+#define FAN1_PIN SERVO3_PIN
 
 //
 // Misc. Functions
