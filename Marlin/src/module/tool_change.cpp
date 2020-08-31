@@ -156,6 +156,7 @@
 inline void _line_to_current(const AxisEnum fr_axis, const float fscale=1) {
   line_to_current_position(planner.settings.max_feedrate_mm_s[fr_axis] * fscale);
 }
+inline void very_slow_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_axis, 0.1f); }
 inline void slow_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_axis, 0.5f); }
 inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_axis); }
 
@@ -688,8 +689,134 @@ inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_a
 
     DEBUG_POS("EMST Tool-Change done.", current_position);
   }
+#elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
+inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
+    if (no_move) return;
 
-#endif // ELECTROMAGNETIC_SWITCHING_TOOLHEAD
+    constexpr float toolheadposx[] = SWITCHING_TOOLHEAD_X_POS;
+
+    const float placexpos = toolheadposx[active_extruder],
+                grabxpos = toolheadposx[new_tool];
+
+    const float up_pos = placexpos - MJOLNIR_TOOLHEAD_X_SLIDE;
+
+    /**
+     * 1. Move to switch position of current toolhead
+     * 2. Release and place toolhead in the dock
+     * 3. Move to the new toolhead
+     * 4. Grab the new toolhead and move to security position
+     */
+
+    DEBUG_POS("Start Mjolnir Tool-Change", current_position);
+
+    // 1. Move to switch position current toolhead
+
+    current_position.x = up_pos;
+    fast_line_to_current(X_AXIS);
+
+    current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
+    fast_line_to_current(Z_AXIS);
+
+    current_position.x = placexpos;
+    very_slow_line_to_current(X_AXIS);
+
+    return;
+
+    // SERIAL_ECHOLNPAIR("(1) Place old tool ", int(active_extruder));
+    // DEBUG_POS("Move Y SwitchPos + Security", current_position);
+
+    // fast_line_to_current(Y_AXIS);
+
+    // current_position.x = placexclear;
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_POS("Move X SwitchPos + Security", current_position);
+
+    // fast_line_to_current(X_AXIS);
+
+    // current_position.y = SWITCHING_TOOLHEAD_Y_POS;
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_POS("Move Y SwitchPos", current_position);
+
+    // fast_line_to_current(Y_AXIS);
+
+    // current_position.x = placexpos;
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_POS("Move X SwitchPos", current_position);
+
+    // line_to_current_position(planner.settings.max_feedrate_mm_s[X_AXIS] * 0.25f);
+
+    // // 2. Release and place toolhead in the dock
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_ECHOLNPGM("(2) Release and Place Toolhead");
+
+    // current_position.y = SWITCHING_TOOLHEAD_Y_POS + SWITCHING_TOOLHEAD_Y_RELEASE;
+    // DEBUG_POS("Move Y SwitchPos + Release", current_position);
+    // line_to_current_position(planner.settings.max_feedrate_mm_s[Y_AXIS] * 0.1f);
+
+    // current_position.y = SWITCHING_TOOLHEAD_Y_POS + SWITCHING_TOOLHEAD_Y_SECURITY;
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_POS("Move Y SwitchPos + Security", current_position);
+
+    // line_to_current_position(planner.settings.max_feedrate_mm_s[Y_AXIS]);
+
+    // // 3. Move to new toolhead position
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_ECHOLNPGM("(3) Move to new toolhead position");
+
+    // current_position.x = grabxpos;
+    // DEBUG_POS("Move to new toolhead X", current_position);
+    // fast_line_to_current(X_AXIS);
+
+    // // 4. Grab the new toolhead and move to security position
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_ECHOLNPGM("(4) Grab new toolhead, move to security position");
+
+    // current_position.y = SWITCHING_TOOLHEAD_Y_POS + SWITCHING_TOOLHEAD_Y_RELEASE;
+    // DEBUG_POS("Move Y SwitchPos + Release", current_position);
+    // line_to_current_position(planner.settings.max_feedrate_mm_s[Y_AXIS]);
+
+    // current_position.y = SWITCHING_TOOLHEAD_Y_POS;
+
+    // DEBUG_SYNCHRONIZE();
+    // DEBUG_POS("Move Y SwitchPos", current_position);
+
+    // _line_to_current(Y_AXIS, 0.2f);
+
+    // #if ENABLED(PRIME_BEFORE_REMOVE) && (SWITCHING_TOOLHEAD_PRIME_MM || SWITCHING_TOOLHEAD_RETRACT_MM)
+    //   #if SWITCHING_TOOLHEAD_PRIME_MM
+    //     current_position.e += SWITCHING_TOOLHEAD_PRIME_MM;
+    //     planner.buffer_line(current_position, MMM_TO_MMS(SWITCHING_TOOLHEAD_PRIME_FEEDRATE), new_tool);
+    //   #endif
+    //   #if SWITCHING_TOOLHEAD_RETRACT_MM
+    //     current_position.e -= SWITCHING_TOOLHEAD_RETRACT_MM;
+    //     planner.buffer_line(current_position, MMM_TO_MMS(SWITCHING_TOOLHEAD_RETRACT_FEEDRATE), new_tool);
+    //   #endif
+    // #else
+    //   planner.synchronize();
+    //   safe_delay(100); // Give switch time to settle
+    // #endif
+
+    // current_position.x = grabxclear;
+    // DEBUG_POS("Move to new toolhead X + Security", current_position);
+    // _line_to_current(X_AXIS, 0.1f);
+    // planner.synchronize();
+    // safe_delay(100); // Give switch time to settle
+
+    // current_position.y += SWITCHING_TOOLHEAD_Y_CLEAR;
+    // DEBUG_POS("Move back Y clear", current_position);
+    // fast_line_to_current(Y_AXIS); // move away from docked toolhead
+    // planner.synchronize(); // Always sync last tool-change move
+
+    // DEBUG_POS("MST Tool-Change done.", current_position);
+  }
+#endif // MJOLNIR_SWITCHING_TOOLHEAD
 
 #if EXTRUDERS
   inline void invalid_extruder_error(const uint8_t e) {
@@ -1011,6 +1138,8 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
         switching_toolhead_tool_change(new_tool, no_move);
       #elif ENABLED(MAGNETIC_SWITCHING_TOOLHEAD)                        // Magnetic Switching Toolhead
         magnetic_switching_toolhead_tool_change(new_tool, no_move);
+      #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
+        mjolnir_switching_toolhead_tool_change(new_tool, no_move);
       #elif ENABLED(ELECTROMAGNETIC_SWITCHING_TOOLHEAD)                 // Magnetic Switching ToolChanger
         em_switching_toolhead_tool_change(new_tool, no_move);
       #elif ENABLED(SWITCHING_NOZZLE) && !SWITCHING_NOZZLE_TWO_SERVOS   // Switching Nozzle (single servo)
