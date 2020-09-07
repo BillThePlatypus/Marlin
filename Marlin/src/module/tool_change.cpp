@@ -720,6 +720,25 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     current_position.x = placexpos;
     very_slow_line_to_current(X_AXIS);
 
+    //drop_mjolnir_tool();
+
+    current_position.z = MJOLNIR_CLEAR_Z;
+    slow_line_to_current(Z_AXIS);
+
+    current_position.x = grabxpos;
+    fast_line_to_current(X_AXIS);
+
+    current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
+    slow_line_to_current(Z_AXIS);
+
+    //grab_mjolnir_tool();
+
+    current_position.x = grabxpos - MJOLNIR_TOOLHEAD_X_SLIDE;
+    slow_line_to_current(X_AXIS);
+
+    current_position.z = MJOLNIR_CLEAR_Z;
+    fast_line_to_current(Z_AXIS);
+
     return;
 
     // SERIAL_ECHOLNPAIR("(1) Place old tool ", int(active_extruder));

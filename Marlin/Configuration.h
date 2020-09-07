@@ -278,7 +278,7 @@
   #define SWITCHING_TOOLHEAD_Y_POS          235         // (mm) Y position of the toolhead dock
   #define SWITCHING_TOOLHEAD_Y_SECURITY      10         // (mm) Security distance Y axis
   #define SWITCHING_TOOLHEAD_Y_CLEAR         60         // (mm) Minimum distance from dock for unobstructed X axis
-  #define SWITCHING_TOOLHEAD_X_POS          { 40, 140 }  // (mm) X positions for parking the extruders
+  #define SWITCHING_TOOLHEAD_X_POS          { 20, 60 }  // (mm) X positions for parking the extruders
   #if ENABLED(SWITCHING_TOOLHEAD)
     #define SWITCHING_TOOLHEAD_SERVO_NR       2         // Index of the servo connector
     #define SWITCHING_TOOLHEAD_SERVO_ANGLES { 0, 180 }  // (degrees) Angles for Lock, Unlock
@@ -295,8 +295,13 @@
   #elif ENABLED(ELECTROMAGNETIC_SWITCHING_TOOLHEAD)
     #define SWITCHING_TOOLHEAD_Z_HOP          2         // (mm) Z raise for switching
   #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
+    // Debugging values
     #define MJOLNIR_TOOLHEAD_Z_POS 150
     #define MJOLNIR_TOOLHEAD_X_SLIDE 50 // How far to slide before locking
+    #define MJOLNIR_CLEAR_Z 100// How far to drop down before moving over for tool changing
+    // #define MJOLNIR_TOOLHEAD_Z_POS 207
+    // #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
+    // #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30// How far to drop down before moving over for tool changing
   #endif
 #endif
 
