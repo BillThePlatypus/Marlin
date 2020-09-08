@@ -768,3 +768,6 @@
   #define CLCD_MOD_RESET                      31
   #define CLCD_SPI_CS                         33
 #endif // TOUCH_UI_FTDI_EVE && LCD_FYSETC_TFT81050
+
+// I don't know if there is a better place to put this
+#define MJOLNIR_STEPPER_PINS {63, 40, 42, 65} // The top pins in the AUX2 block

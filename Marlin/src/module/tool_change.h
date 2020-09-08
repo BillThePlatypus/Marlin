@@ -24,6 +24,11 @@
 #include "../inc/MarlinConfigPre.h"
 #include "../core/types.h"
 
+#if ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
+#include <CheapStepper.h>
+
+#endif
+
 #if EXTRUDERS > 1
 
   typedef struct {
@@ -117,6 +122,8 @@
 #endif
 
 TERN_(ELECTROMAGNETIC_SWITCHING_TOOLHEAD, void est_init());
+
+TERN_(MJOLNIR_SWITCHING_TOOLHEAD, void mjolnir_switching_toolhead_init());
 
 TERN_(SWITCHING_TOOLHEAD, void swt_init());
 

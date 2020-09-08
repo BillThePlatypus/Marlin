@@ -690,6 +690,15 @@ inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_a
     DEBUG_POS("EMST Tool-Change done.", current_position);
   }
 #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
+
+CheapStepper mjolnir_stepper; // Where should this go?
+void mjolnir_switching_toolhead_init()
+{
+  int stepper_pins[4]MJOLNIR_STEPPER_PINS;
+  mjolnir_stepper = CheapStepper(stepper_pins[0], stepper_pins[1], stepper_pins[2], stepper_pins[3]);
+  mjolnir_stepper.setRpm(15);
+}
+
 inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
     if (no_move) return;
 
