@@ -299,7 +299,7 @@
     #define MJOLNIR_TOOLHEAD_Z_POS 150
     #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30 // How far to drop down before moving over for tool changing
-    #define MJOLNIR_FAST_FR 300
+    #define MJOLNIR_FAST_FR 200
     #define MJOLNIR_SLOW_FR 100
     #define MJOLNIR_VERY_SLOW_FR 25
     // #define MJOLNIR_TOOLHEAD_Z_POS 207

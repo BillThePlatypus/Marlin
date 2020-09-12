@@ -762,13 +762,13 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     current_position.x = up_pos;
     DEBUG_ECHO(up_pos);
     DEBUG_ECHO(": up_pos\n");
-    fast_line_to_current(X_AXIS);
+    mjolnir_fast_line_to_current(X_AXIS);
 
     current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
-    fast_line_to_current(Z_AXIS);
+    mjolnir_fast_line_to_current(Z_AXIS);
 
     current_position.x = placexpos;
-    very_slow_line_to_current(X_AXIS);
+    mjolnir_very_slow_line_to_current(X_AXIS);
 
     DEBUG_ECHO("Dropping tool");
 
@@ -777,13 +777,13 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     DEBUG_ECHO("Tool dropped");
 
     current_position.z = MJOLNIR_CLEAR_Z;
-    slow_line_to_current(Z_AXIS);
+    mjolnir_slow_line_to_current(Z_AXIS);
 
     current_position.x = grabxpos;
-    fast_line_to_current(X_AXIS);
+    mjolnir_fast_line_to_current(X_AXIS);
 
     current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
-    slow_line_to_current(Z_AXIS);
+    mjolnir_slow_line_to_current(Z_AXIS);
 
     DEBUG_ECHO("Grabbing tool");
 
@@ -792,10 +792,10 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     DEBUG_ECHO("Tool grabbed");
 
     current_position.x = grabxpos - MJOLNIR_TOOLHEAD_X_SLIDE;
-    slow_line_to_current(X_AXIS);
+    mjolnir_slow_line_to_current(X_AXIS);
 
     current_position.z = MJOLNIR_CLEAR_Z;
-    fast_line_to_current(Z_AXIS);
+    mjolnir_fast_line_to_current(Z_AXIS);
 
     DEBUG_ECHO("Tool change done");
 
