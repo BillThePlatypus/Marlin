@@ -1166,7 +1166,6 @@ void setup() {
   #endif
 
   #if ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
-
     SETUP_RUN(mjolnir_switching_toolhead_init());
   #endif
 

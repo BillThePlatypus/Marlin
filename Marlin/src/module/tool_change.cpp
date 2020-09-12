@@ -31,7 +31,7 @@
 
 #include "../MarlinCore.h"
 
-//#define DEBUG_TOOL_CHANGE
+#define DEBUG_TOOL_CHANGE
 
 #define DEBUG_OUT ENABLED(DEBUG_TOOL_CHANGE)
 #include "../core/debug_out.h"
@@ -691,12 +691,28 @@ inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_a
   }
 #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
 
-CheapStepper mjolnir_stepper; // Where should this go?
+CheapStepper mjolnir_stepper MJOLNIR_STEPPER_PINS; // Where should this go?
 void mjolnir_switching_toolhead_init()
 {
-  int stepper_pins[4]MJOLNIR_STEPPER_PINS;
-  mjolnir_stepper = CheapStepper(stepper_pins[0], stepper_pins[1], stepper_pins[2], stepper_pins[3]);
+  DEBUG_ECHO("Initializing tool switching");
+}
+
+inline void drop_mjolnir_tool()
+{
+  int *motor_cheat = reinterpret_cast<int*>(&mjolnir_stepper);
+  for(int i=0;i<11;i++)
+  {
+    DEBUG_ECHO(motor_cheat[i]);
+    DEBUG_ECHO("\n");
+  }
   mjolnir_stepper.setRpm(15);
+  mjolnir_stepper.moveDegreesCCW(3*360);
+}
+
+inline void grab_mjolnir_tool()
+{
+  mjolnir_stepper.setRpm(15);
+  mjolnir_stepper.moveDegreesCW(3*360);
 }
 
 inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
@@ -729,7 +745,11 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     current_position.x = placexpos;
     very_slow_line_to_current(X_AXIS);
 
-    //drop_mjolnir_tool();
+    DEBUG_ECHO("Dropping tool");
+
+    drop_mjolnir_tool();
+
+    DEBUG_ECHO("Tool dropped");
 
     current_position.z = MJOLNIR_CLEAR_Z;
     slow_line_to_current(Z_AXIS);
@@ -740,13 +760,19 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
     slow_line_to_current(Z_AXIS);
 
-    //grab_mjolnir_tool();
+    DEBUG_ECHO("Grabbing tool");
+
+    grab_mjolnir_tool();
+
+    DEBUG_ECHO("Tool grabbed");
 
     current_position.x = grabxpos - MJOLNIR_TOOLHEAD_X_SLIDE;
     slow_line_to_current(X_AXIS);
 
     current_position.z = MJOLNIR_CLEAR_Z;
     fast_line_to_current(Z_AXIS);
+
+    DEBUG_ECHO("Tool change done");
 
     return;
 
