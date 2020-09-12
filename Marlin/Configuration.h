@@ -297,8 +297,8 @@
   #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
     // Debugging values
     #define MJOLNIR_TOOLHEAD_Z_POS 150
-    #define MJOLNIR_TOOLHEAD_X_SLIDE 50 // How far to slide before locking
-    #define MJOLNIR_CLEAR_Z 100// How far to drop down before moving over for tool changing
+    #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
+    #define MJOLNIR_CLEAR_Z MJONIR_TOOLHEAD_Z_POS - 30 // How far to drop down before moving over for tool changing
     // #define MJOLNIR_TOOLHEAD_Z_POS 207
     // #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     // #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30// How far to drop down before moving over for tool changing

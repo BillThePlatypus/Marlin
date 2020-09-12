@@ -694,24 +694,17 @@ inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_a
 CheapStepper mjolnir_stepper MJOLNIR_STEPPER_PINS; // Where should this go?
 void mjolnir_switching_toolhead_init()
 {
-  DEBUG_ECHO("Initializing tool switching");
+  DEBUG_ECHO("Initializing mjolnir tool switching");
+  mjolnir_stepper.setRpm(20);
 }
 
 inline void drop_mjolnir_tool()
 {
-  int *motor_cheat = reinterpret_cast<int*>(&mjolnir_stepper);
-  for(int i=0;i<11;i++)
-  {
-    DEBUG_ECHO(motor_cheat[i]);
-    DEBUG_ECHO("\n");
-  }
-  mjolnir_stepper.setRpm(15);
   mjolnir_stepper.moveDegreesCCW(3*360);
 }
 
 inline void grab_mjolnir_tool()
 {
-  mjolnir_stepper.setRpm(15);
   mjolnir_stepper.moveDegreesCW(3*360);
 }
 
