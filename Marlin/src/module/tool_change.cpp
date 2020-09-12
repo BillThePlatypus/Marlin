@@ -700,11 +700,13 @@ void mjolnir_switching_toolhead_init()
 
 inline void drop_mjolnir_tool()
 {
+  planner.synchronize();
   mjolnir_stepper.moveDegreesCCW(3*360);
 }
 
 inline void grab_mjolnir_tool()
 {
+  planner.synchronize();
   mjolnir_stepper.moveDegreesCW(3*360);
 }
 
