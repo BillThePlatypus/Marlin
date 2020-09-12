@@ -711,14 +711,14 @@ inline void finish_mjolnir_move()
 inline void drop_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.newMoveDegreesCCW(3*360);
+  mjolnir_stepper.newMoveDegreesCW(3*360);
   finish_mjolnir_move();
 }
 
 inline void grab_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.newMoveDegreesCW(3*360);
+  mjolnir_stepper.newMoveDegreesCCW(3*360);
   finish_mjolnir_move();
 }
 
