@@ -698,16 +698,44 @@ void mjolnir_switching_toolhead_init()
   mjolnir_stepper.setRpm(20);
 }
 
+inline void finish_mjolnir_move()
+{
+  while(mjolnir_stepper.is_moving())
+  {
+    mjolnir_stepper.run();
+    // idle(); // TODO idle while locking / unlocking tool?
+    watchdog_refresh();
+  }
+}
+
 inline void drop_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.moveDegreesCCW(3*360);
+  mjolnir_stepper.newMoveDegreesCCW(3*360);
+  finish_mjolnir_move();
 }
 
 inline void grab_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.moveDegreesCW(3*360);
+  mjolnir_stepper.newMoveDegreesCW(3*360);
+  finish_mjolnir_move();
+}
+
+inline void line_to_current(const AxisEnum fr_axis, const float fr) {
+  line_to_current_position(fr);
+}
+
+inline void mjolnir_fast_line_to_current(const AxisEnum axis){
+  line_to_current(axis, MJOLNIR_FAST_FR);
+}
+
+inline void mjolnir_slow_line_to_current(const AxisEnum axis){
+  line_to_current(axis, MJOLNIR_SLOW_FR);
+}
+
+inline void mjolnir_very_slow_line_to_current(const AxisEnum axis){
+  line_to_current(axis, MJOLNIR_VERY_SLOW_FR);
 }
 
 inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
@@ -732,6 +760,8 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     // 1. Move to switch position current toolhead
 
     current_position.x = up_pos;
+    DEBUG_ECHO(up_pos);
+    DEBUG_ECHO(": up_pos\n");
     fast_line_to_current(X_AXIS);
 
     current_position.z = MJOLNIR_TOOLHEAD_Z_POS;

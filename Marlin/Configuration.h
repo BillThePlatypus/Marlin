@@ -299,6 +299,9 @@
     #define MJOLNIR_TOOLHEAD_Z_POS 150
     #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30 // How far to drop down before moving over for tool changing
+    #define MJOLNIR_FAST_FR 300
+    #define MJOLNIR_SLOW_FR 100
+    #define MJOLNIR_VERY_SLOW_FR 25
     // #define MJOLNIR_TOOLHEAD_Z_POS 207
     // #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     // #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30// How far to drop down before moving over for tool changing
@@ -749,11 +752,11 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 400, 400, 32, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 32, 50 }
 
-//#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
+#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 10, 50 } // ...or, set your own edit limits
+  #define MAX_FEEDRATE_EDIT_VALUES    { 300, 300, 32, 50 } // ...or, set your own edit limits
 #endif
 
 /**
