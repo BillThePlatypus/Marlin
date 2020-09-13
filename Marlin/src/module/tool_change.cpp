@@ -696,6 +696,7 @@ void mjolnir_switching_toolhead_init()
 {
   DEBUG_ECHO("Initializing mjolnir tool switching");
   mjolnir_stepper.setRpm(20);
+  mjolnir_stepper.stepCCW(); // This makes sure that it is powered
 }
 
 inline void finish_mjolnir_move()
