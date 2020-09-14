@@ -296,13 +296,13 @@
     #define SWITCHING_TOOLHEAD_Z_HOP          2         // (mm) Z raise for switching
   #elif ENABLED(MJOLNIR_SWITCHING_TOOLHEAD)
     // Debugging values
-    #define MJOLNIR_TOOLHEAD_Z_POS 150
+    // #define MJOLNIR_TOOLHEAD_Z_POS 150
     #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
-    #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30 // How far to drop down before moving over for tool changing
+    #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 60 // How far to drop down before moving over for tool changing
     #define MJOLNIR_FAST_FR 200
     #define MJOLNIR_SLOW_FR 100
     #define MJOLNIR_VERY_SLOW_FR 25
-    // #define MJOLNIR_TOOLHEAD_Z_POS 207
+    #define MJOLNIR_TOOLHEAD_Z_POS 207
     // #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     // #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30// How far to drop down before moving over for tool changing
   #endif
@@ -765,7 +765,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 100, 10000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
