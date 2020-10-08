@@ -278,7 +278,7 @@
   #define SWITCHING_TOOLHEAD_Y_POS          235         // (mm) Y position of the toolhead dock
   #define SWITCHING_TOOLHEAD_Y_SECURITY      10         // (mm) Security distance Y axis
   #define SWITCHING_TOOLHEAD_Y_CLEAR         60         // (mm) Minimum distance from dock for unobstructed X axis
-  #define SWITCHING_TOOLHEAD_X_POS          { 35, 75 }  // (mm) X positions for parking the extruders
+  #define SWITCHING_TOOLHEAD_X_POS          { 35, 135 }  // (mm) X positions for parking the extruders
   #if ENABLED(SWITCHING_TOOLHEAD)
     #define SWITCHING_TOOLHEAD_SERVO_NR       2         // Index of the servo connector
     #define SWITCHING_TOOLHEAD_SERVO_ANGLES { 0, 180 }  // (degrees) Angles for Lock, Unlock
@@ -298,11 +298,12 @@
     // Debugging values
     // #define MJOLNIR_TOOLHEAD_Z_POS 150
     #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
-    #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 60 // How far to drop down before moving over for tool changing
+    #define MJOLNIR_Z_PUSH 214
+    #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 80 // How far to drop down before moving over for tool changing
     #define MJOLNIR_FAST_FR 200
     #define MJOLNIR_SLOW_FR 100
     #define MJOLNIR_VERY_SLOW_FR 25
-    #define MJOLNIR_TOOLHEAD_Z_POS 207
+    #define MJOLNIR_TOOLHEAD_Z_POS 212
     // #define MJOLNIR_TOOLHEAD_X_SLIDE 15 // How far to slide before locking
     // #define MJOLNIR_CLEAR_Z MJOLNIR_TOOLHEAD_Z_POS - 30// How far to drop down before moving over for tool changing
   #endif
@@ -752,11 +753,11 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 32, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 200, 200, 32, 50 }
 
 #define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-  #define MAX_FEEDRATE_EDIT_VALUES    { 300, 300, 32, 50 } // ...or, set your own edit limits
+  #define MAX_FEEDRATE_EDIT_VALUES    { 200, 200, 32, 50 } // ...or, set your own edit limits
 #endif
 
 /**

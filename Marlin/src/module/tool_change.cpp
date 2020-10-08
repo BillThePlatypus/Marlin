@@ -695,7 +695,7 @@ CheapStepper mjolnir_stepper MJOLNIR_STEPPER_PINS; // Where should this go?
 void mjolnir_switching_toolhead_init()
 {
   DEBUG_ECHO("Initializing mjolnir tool switching");
-  mjolnir_stepper.setRpm(20);
+  mjolnir_stepper.setRpm(15);
   mjolnir_stepper.stepCCW(); // This makes sure that it is powered
 }
 
@@ -712,14 +712,14 @@ inline void finish_mjolnir_move()
 inline void drop_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.newMoveDegreesCW(3*360);
+  mjolnir_stepper.newMoveDegreesCW(3*180);
   finish_mjolnir_move();
 }
 
 inline void grab_mjolnir_tool()
 {
   planner.synchronize();
-  mjolnir_stepper.newMoveDegreesCCW(3*360);
+  mjolnir_stepper.newMoveDegreesCCW(3*180);
   finish_mjolnir_move();
 }
 
@@ -783,7 +783,7 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     current_position.x = grabxpos;
     mjolnir_fast_line_to_current(X_AXIS);
 
-    current_position.z = MJOLNIR_TOOLHEAD_Z_POS;
+    current_position.z = MJOLNIR_Z_PUSH;
     mjolnir_slow_line_to_current(Z_AXIS);
 
     DEBUG_ECHO("Grabbing tool");
@@ -799,6 +799,8 @@ inline void mjolnir_switching_toolhead_tool_change(const uint8_t new_tool, bool 
     mjolnir_fast_line_to_current(Z_AXIS);
 
     DEBUG_ECHO("Tool change done");
+
+    planner.synchronize();
 
     return;
 
@@ -1341,7 +1343,9 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
             #if ENABLED(TOOLCHANGE_PARK)
               if (toolchange_settings.enable_park) do_blocking_move_to_xy_z(destination, destination.z, MMM_TO_MMS(TOOLCHANGE_PARK_XY_FEEDRATE));
             #else
-              do_blocking_move_to_xy(destination, planner.settings.max_feedrate_mm_s[X_AXIS]);
+              // do_blocking_move_to_xy(destination, planner.settings.max_feedrate_mm_s[X_AXIS]);
+              // do_blocking_move_to_z(destination.z, planner.settings.max_feedrate_mm_s[Z_AXIS]);
+              do_blocking_move_to_xy(destination, 200);
               do_blocking_move_to_z(destination.z, planner.settings.max_feedrate_mm_s[Z_AXIS]);
             #endif
 
